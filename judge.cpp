@@ -34,15 +34,15 @@ int main() {
 	cout << '\n' << "\x1b[37m" << "Running " << n << " tests..." << '\n' << endl;
 	vector<vector<int>> tests;
 	tests.reserve(n);
+	const string actual_out = test_dir_path + "\\temp.out";
 	for (int i = 1; i <= n; i++) {
 		vector<int> test;
 
-		const string actual_out = test_dir_path + "\\temp.out";
 		const string expected_out = test_dir_path + "\\" + to_string(i) + ".out";
 
 		string cmd = solution_file_path + " < " + test_dir_path + "\\" + to_string(i) + ".in > " + actual_out;
 		system(cmd.c_str());
-		
+
 		string line_actual;
 		ifstream actual_out_stream(actual_out);
 		string line_expected;
@@ -63,6 +63,7 @@ int main() {
 		}
 		tests.emplace_back(test);
 	}
+	filesystem::remove(actual_out);
 
 	bool perfect = true;
 	for (int j = 0; j < tests.size(); j++) {
