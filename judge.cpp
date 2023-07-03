@@ -15,19 +15,17 @@ string strip_quotes(string str) {
 int main() {
 	cout << "\n";
 
-	ios::sync_with_stdio(0);
-
 	const HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	string solution_file_path;
 	cout << "\x1b[37m" << "Path to exe >> " << "\x1b[m";
-	cin >> solution_file_path;
-	solution_file_path = strip_quotes(solution_file_path);
+	getline(cin,solution_file_path);
+	solution_file_path = "\"" + strip_quotes(solution_file_path) + "\"";
 
 
 	string test_dir_path;
 	cout << "\x1b[37m" << "Path to test data dir >> " << "\x1b[m";
-	cin >> test_dir_path;
+	getline(cin,test_dir_path);
 	test_dir_path = strip_quotes(test_dir_path);
 
 	const int n = distance(filesystem::directory_iterator(test_dir_path),filesystem::directory_iterator()) / 2;
@@ -40,7 +38,7 @@ int main() {
 
 		const string expected_out = test_dir_path + "\\" + to_string(i) + ".out";
 
-		string cmd = solution_file_path + " < " + test_dir_path + "\\" + to_string(i) + ".in > " + actual_out;
+		string cmd = "\"" + solution_file_path + " < \"" + test_dir_path + "\\" + to_string(i) + ".in\" > \"" + actual_out + "\"\"";
 		system(cmd.c_str());
 
 		string line_actual;
